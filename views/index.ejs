@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/stylesheet/index.css">
-</head>
-<body>
-    <h1>hello Huzaifa</h1>
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <main class="main w-full min-h-screen bg-[#0A0A0A]">
+      <header
+        class="bg-[#1E1E1E] p-6 text-center border-b-2 border-[#6C63FF] shadow-md w-full h-[80px] flex flex-row justify-between items-center px-4 py-2"
+      >
+        <h5
+          class="header-logo text-xl text-[#E0E0E0] tracking-[1px] font-semibold"
+        >
+          NoteNest
+        </h5>
+        <p class="text-[#A0A0A0] m-1 text-lg">Your cozy place for notes</p>
+      </header>
+      <form
+        action=""
+        class="note-form flex flex-col justify-center items-center w-full px-5 py-3 gap-5 mt-4"
+      >
+        <label
+          class="note-tittle-label text-[#A0A0A0] text-3xl w-full flex flex-col justify-center items-start gap-4"
+          for="note-tittle-input"
+          >Tittle<input
+            type="text"
+            id="note-tittle-input"
+            class="note-tittle-input w-full capitalize text-3xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
+            placeholder="Note Tittle"
+        /></label>
+        <label
+          class="note-description-label text-[#A0A0A0] text-3xl w-full flex flex-col justify-center items-start gap-4"
+          for="note-description-input"
+        >
+          Description
+          <textarea
+            placeholder="Note Description"
+            rows="5"
+            id="note-description-input"
+            class="note-description-input capitalize max-h-[300px] w-full text-xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
+          ></textarea>
+        </label>
+      </form>
+      <div class="notes">
+        <h5 class="text-center w-full text-5xl text-[#6C63FF]">Notes</h5>
+      </div>
+    </main>
     <script src="/javascripts/index.js"></script>
-</body>
+  </body>
 </html>
