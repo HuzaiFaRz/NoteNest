@@ -12,7 +12,30 @@
   border: 3px solid #1e1e1e;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #4a47ff;
+}
+
+@font-face {
+  font-family: HelveticaBold;
+  src: url(/font/Helvetica-Bold.ttf);
+}
+
+@font-face {
+  font-family: Helvetica;
+  src: url(/font/Helvetica.ttf);
+}
+
+p,
+input,
+label {
+  font-family: Helvetica !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: HelveticaBold !important;
 }
