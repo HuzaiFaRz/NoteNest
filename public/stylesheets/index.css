@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap");
+
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -16,20 +18,11 @@
   background: #4a47ff;
 }
 
-@font-face {
-  font-family: HelveticaBold;
-  src: url(/font/Helvetica-Bold.ttf);
-}
-
-@font-face {
-  font-family: Helvetica;
-  src: url(/font/Helvetica.ttf);
-}
-
 p,
 input,
 label {
-  font-family: Helvetica !important;
+  font-family: "Comfortaa", serif !important;
+  font-weight: normal;
 }
 h1,
 h2,
@@ -37,5 +30,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: HelveticaBold !important;
+  font-family: "Comfortaa", serif !important;
+  font-weight: bold;
 }
