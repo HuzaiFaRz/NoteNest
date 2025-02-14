@@ -18,11 +18,20 @@ fs.readdir(`./notes`, (error, notes) => {
   console.log(notes);
 });
 
-app.post('/create',(req,res)=>{
-
-
-  
-})
+app.post("/create", (req, res) => {
+  const data = req.body;
+  fs.writeFile(
+    `./notes/${data.noteTittle.split(" ").join("")}`,
+    data.noteDescription,
+    (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("Note Created");
+      }
+    }
+  );
+});
 
 app.listen(PORT, () => {
   console.log("Server Running");
