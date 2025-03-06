@@ -83,7 +83,7 @@
         <div
           class="note-body flex flex-wrap justify-center items-center gap-4 gap-y-5 mt-5 px-3"
         >
-          <% notes.forEach((elem)=>{ %>
+          <% if (notes.length > 0) { %> <% notes.forEach((elem)=>{ %>
           <div
             class="note-card max-w-md mx-auto bg-[#1E1E1E] rounded-lg shadow-lg p-6 mb-6 border border-[#333333]"
           >
@@ -114,7 +114,11 @@
               <h6 class="text-[#6C63FF] font-light">2-Feb-2025 at 09:42 PM</h6>
             </div>
           </div>
-          <% }) %>
+          <% }) %> <% } else { %>
+          <h4 class="text-xl text-[#A0A0A0] mt-12 mb-5 w-full text-center p-5">
+            No Notes Yet
+          </h4>
+          <% } %>
         </div>
       </div>
     </main>

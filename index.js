@@ -8,14 +8,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
-fs.readdir(`./notes`, (error, notes) => {
-  if (error) {
-    return "error";
-  }
-  app.get("/", (req, res) => {
-    res.render("index", { notes: notes });
+app.get("/", (req, res) => {
+  fs.readdir(`./notes`, (error, notes) => {
+    if (!error) {
+      res.render("index", { notes: notes });
+      return;
+    }
+    console.log(error);
   });
-  console.log(notes);
 });
 
 app.post("/create", (req, res) => {
@@ -23,12 +23,13 @@ app.post("/create", (req, res) => {
   fs.writeFile(
     `./notes/${data.noteTittle.split(" ").join("")}`,
     data.noteDescription,
-    (err) => {
-      if (err) {
-        console.error(err);
-      } else {
+    (error) => {
+      if (!error) {
         console.log("Note Created");
+        res.redirect("/");
+        return;
       }
+      console.log(error);
     }
   );
 });
