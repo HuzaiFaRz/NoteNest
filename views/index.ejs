@@ -12,7 +12,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/stylesheets/index.css" />
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   </head>
   <body>
     <main class="main w-full min-h-screen bg-[#0A0A0A]">
@@ -37,11 +36,13 @@
         >
           Tittle
           <input
+            required
             name="noteTittle"
             type="text"
             id="note-tittle-input"
             class="note-tittle-input w-full capitalize text-3xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
             placeholder="Note Tittle"
+            value="Feautures of Javascript"
           />
         </label>
         <label
@@ -50,13 +51,18 @@
         >
           Description
           <textarea
+            required
             name="noteDescription"
             placeholder="Note Description"
             rows="5"
             id="note-description-input"
             class="note-description-input capitalize max-h-[300px] w-full text-xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
-          ></textarea>
+          >
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam cupiditate est deserunt, sed illum pariatur alias in accusamus ex possimus.</textarea
+          >
         </label>
+
+        >
 
         <button
           type="submit"
@@ -65,6 +71,7 @@
           Create Note
         </button>
       </form>
+
       <div class="notes mt-5">
         <div
           class="note-header flex flex-wrap justify-evenly items-center py-2 gap-y-5"
@@ -83,35 +90,34 @@
         <div
           class="note-body flex flex-wrap justify-center items-center gap-4 gap-y-5 mt-5 px-3"
         >
-          <% if (notes.length > 0) { %> <% notes.forEach((elem)=>{ %>
+          <% if (allNotes.length > 0) { %> <% allNotes.forEach((elem)=>{ %>
           <div
             class="note-card max-w-md mx-auto bg-[#1E1E1E] rounded-lg shadow-lg p-6 mb-6 border border-[#333333]"
           >
             <h2 class="text-[#E0E0E0] text-2xl font-semibold mb-2">
-              <%= elem %>
+              <%= elem.noteTittle %>
             </h2>
 
-            <p class="text-[#A0A0A0] text-lg mb-4">
-              This is the content of the note. It can be a short description or
-              a longer paragraph.
-            </p>
-
-            <div class="flex flex-wrap justify-between items-center gap-y-4">
-              <div class="flex flex-row justify-center items-center gap-4">
+            <a
+              href="/notes/<%= elem %>"
+              class="text-[#A0A0A0] inline-block text-lg mb-4 w-full"
+              >Read More..</a
+            >
+            <div
+              class="flex flex-wrap justify-center items-center gap-y-5 gap-5"
+            >
+              <form
+                class="flex flex-row justify-center items-center gap-4"
+                action="/delete"
+                method="DELETE"
+              >
                 <button
-                  class="bg-[#6C63FF] text-[#E0E0E0] font-semibold py-2 px-4 rounded-lg hover:bg-[#4A47FF] transition-all duration-300 shadow-lg hover:shadow-[#6C63FF]/50"
-                >
-                  Edit
-                </button>
-
-                <button
-                  class="bg-red-500 text-[#E0E0E0] cursor-pointer font-semibold py-2 px-4 rounded-lg hover:bg-[#FF4A4A] transition-all duration-300 shadow-lg hover:shadow-[#FF6B6B]/50"
+                  class="bg-red-500 text-sm text-[#E0E0E0] cursor-pointer font-semibold py-2 px-4 rounded-lg hover:bg-[#FF4A4A] transition-all duration-300 shadow-lg hover:shadow-[#FF6B6B]/50"
                 >
                   Delete
                 </button>
-              </div>
-
-              <h6 class="text-[#6C63FF] font-light">2-Feb-2025 at 09:42 PM</h6>
+              </form>
+              <div class="text-white text-sm">Created At <%= elem.noteTime%></div>
             </div>
           </div>
           <% }) %> <% } else { %>
@@ -122,6 +128,7 @@
         </div>
       </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="/javascripts/index.js"></script>
   </body>
 </html>
