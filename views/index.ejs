@@ -23,7 +23,7 @@
         >
           NoteNest
         </h5>
-        <p class="text-[#A0A0A0] m-1 text-lg">Your Cozy Place For Notes</p>
+        <p class="text-[#A0A0A0] m-1 text-md">Your Cozy Place For Notes</p>
       </header>
       <form
         action="/create"
@@ -42,7 +42,7 @@
             id="note-tittle-input"
             class="note-tittle-input w-full capitalize text-3xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
             placeholder="Note Tittle"
-            value="Feautures of Javascript"
+            maxlength="100"
           />
         </label>
         <label
@@ -56,10 +56,9 @@
             placeholder="Note Description"
             rows="5"
             id="note-description-input"
+            maxlength="500"
             class="note-description-input capitalize max-h-[300px] w-full text-xl px-3 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] placeholder-[#A0A0A0] focus:outline-0"
-          >
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam cupiditate est deserunt, sed illum pariatur alias in accusamus ex possimus.</textarea
-          >
+          ></textarea>
         </label>
 
         >
@@ -92,32 +91,39 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam cupiditate est 
         >
           <% if (allNotes.length > 0) { %> <% allNotes.forEach((elem)=>{ %>
           <div
+            id="note-card"
             class="note-card max-w-md mx-auto bg-[#1E1E1E] rounded-lg shadow-lg p-6 mb-6 border border-[#333333]"
           >
-            <h2 class="text-[#E0E0E0] text-2xl font-semibold mb-2">
+            <h2
+              class="text-[#E0E0E0] text-2xl font-semibold mb-2"
+              id="note-tittle"
+            >
               <%= elem.noteTittle %>
             </h2>
 
             <a
-              href="/notes/<%= elem %>"
+              href="/notes/<%= elem.noteName  %>"
               class="text-[#A0A0A0] inline-block text-lg mb-4 w-full"
               >Read More..</a
             >
+
             <div
               class="flex flex-wrap justify-center items-center gap-y-5 gap-5"
             >
-              <form
+              <a
+                href="/delete/<%= elem.noteName  %>"
                 class="flex flex-row justify-center items-center gap-4"
-                action="/delete"
-                method="DELETE"
               >
                 <button
                   class="bg-red-500 text-sm text-[#E0E0E0] cursor-pointer font-semibold py-2 px-4 rounded-lg hover:bg-[#FF4A4A] transition-all duration-300 shadow-lg hover:shadow-[#FF6B6B]/50"
                 >
                   Delete
                 </button>
-              </form>
-              <div class="text-white text-sm">Created At <%= elem.noteTime%></div>
+              </a>
+
+              <div class="text-white text-sm">
+                Created At <%= elem.noteTime%>
+              </div>
             </div>
           </div>
           <% }) %> <% } else { %>
