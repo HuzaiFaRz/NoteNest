@@ -1,5 +1,4 @@
 const express = require("express");
-const { createServer } = require("@vercel/node"); 
 const app = express();
 const path = require("path");
 const fs = require("fs");
@@ -100,5 +99,3 @@ app.get("/delete/:noteName", (req, res) => {
 app.listen(PORT, () => {
   console.log("Server Running");
 });
-
-module.exports = app;
