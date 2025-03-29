@@ -34,3 +34,7 @@ label {
   -webkit-appearance: none;
   appearance: none;
 }
+.content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}

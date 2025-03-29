@@ -13,30 +13,35 @@ app.get("/", (req, res) => {
     fs.mkdirSync("./notes");
   }
   fs.readdir(`./notes`, (error, notes) => {
-    if (!error) {
-      let allNotesArray = [];
-      let readFilesCount = 0;
-      if (notes.length === 0) {
-        return res.render("index", { allNotes: [] });
-      }
-      notes.forEach((elem, index) => {
-        fs.readFile(`./notes/${elem}`, "utf-8", (error, data) => {
-          if (!error) {
-            const noteData = JSON.parse(data);
-            allNotesArray.push(noteData);
-            readFilesCount++;
-            if (index === notes.length - 1 && readFilesCount === notes.length) {
-              res.render("index", { allNotes: allNotesArray });
-              return;
-            }
-            return;
-          }
-          console.log(error.message);
-        });
-      });
+    if (error) {
+      console.log("failed to show Notes", error.message);
+      res.status(500).json({ error: "failed to show Notes" });
       return;
     }
-    console.log(error.message);
+    let allNotesArray = [];
+    let readFilesCount = 0;
+    if (notes.length === 0) {
+      return res.render("index", { allNotes: allNotesArray });
+    }
+    notes.forEach((elem, index) => {
+      fs.readFile(`./notes/${elem}`, "utf-8", (error, data) => {
+        if (error) {
+          console.log("failed to show Notes", error.message);
+          res.status(500).json({ error: "failed to show Notes" });
+          return;
+        }
+        const noteData = JSON.parse(data);
+        allNotesArray.push(noteData);
+        readFilesCount++;
+
+        if (index === notes.length - 1 && readFilesCount === notes.length) {
+          res.render("index", {
+            allNotes: allNotesArray,
+          });
+          return;
+        }
+      });
+    });
   });
 });
 
@@ -50,32 +55,33 @@ app.post("/create", (req, res) => {
     day: "2-digit",
   });
   const noteData = {
-    noteName: req.body.noteTittle.replace(/\s/g, ""),
+    noteFileName: `${req.body.noteTittle.split(" ").join("")}.json`,
     noteTittle: req.body.noteTittle,
     noteDescription: req.body.noteDescription,
     noteTime: date,
   };
   fs.writeFile(
-    `./notes/${req.body.noteTittle.split(" ").join("")}.json`,
+    `./notes/${noteData.noteFileName}`,
     JSON.stringify(noteData),
     (error) => {
-      if (!error) {
-        res.redirect("/");
+      if (error) {
+        console.error("Error Creating Note", error.message);
+        res.status(500).json({ error: "failed to create note" });
         return;
       }
-      console.log(error);
+      res.redirect("/");
     }
   );
 });
 
-app.get("/notes/:noteName", (req, res) => {
+app.get("/notes/:noteFileName", (req, res) => {
   fs.readFile(
-    `./notes/${req.params.noteName}.json`,
+    `./notes/${req.params.noteFileName}`,
     "utf-8",
     (error, noteDescription) => {
       if (!error) {
         res.render("noteShow", {
-          name: JSON.parse(noteDescription).noteName,
+          name: JSON.parse(noteDescription).noteFileName,
           tittle: JSON.parse(noteDescription).noteTittle,
           description: JSON.parse(noteDescription).noteDescription,
           time: JSON.parse(noteDescription).noteTime,
@@ -87,13 +93,67 @@ app.get("/notes/:noteName", (req, res) => {
   );
 });
 
-app.get("/delete/:noteName", (req, res) => {
-  fs.unlink(`./notes/${req.params.noteName}.json`, (error) => {
+app.get("/delete/:noteFileName", (req, res) => {
+  fs.unlink(`./notes/${req.params.noteFileName}`, (error) => {
     if (!error) {
       res.redirect("/");
     }
     console.log(error.message);
   });
+});
+
+app.get("/edit/:noteTittle", (req, res) => {
+  res.render("noteedit", {
+    notePreviousName: req.params.noteTittle,
+  });
+});
+
+app.post("/update", (req, res) => {
+  const previousTittle = `./notes/${req.body.previousTittle
+    .split(" ")
+    .join("")}.json`;
+  const newTittle = `./notes/${req.body.newTittle}`;
+
+  fs.rename(
+    previousTittle,
+    `${newTittle.split(" ").join("")}.json`,
+    (error) => {
+      if (error) {
+        console.error("Error renaming file:", error.message);
+        res.status(500).json({ error: "Failed to rename file" });
+        return;
+      }
+      fs.readFile(
+        `${newTittle.split(" ").join("")}.json`,
+        "utf-8",
+        (error, data) => {
+          if (error) {
+            console.error("Error renaming file:", error.message);
+            res.status(500).json({ error: "Failed to rename file" });
+            return;
+          }
+          const noteData = JSON.parse(data);
+          noteData.noteFileName = `${req.body.newTittle
+            .split(" ")
+            .join("")}.json`;
+          noteData.noteTittle = req.body.newTittle;
+          fs.writeFile(
+            `${newTittle.split(" ").join("")}.json`,
+            JSON.stringify(noteData),
+            "utf-8",
+            (error) => {
+              if (error) {
+                console.error("Error renaming file:", error.message);
+                res.status(500).json({ error: "Failed to rename file" });
+                return;
+              }
+              res.redirect("/");
+            }
+          );
+        }
+      );
+    }
+  );
 });
 
 app.listen(PORT, () => {

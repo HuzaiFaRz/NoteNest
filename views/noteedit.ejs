@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit: <%= notePreviousName %> | NoteNest</title>
+    <link rel="shortcut icon" href="/images/faviicon.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+  </head>
+  <body class="bg-[#0A0A0A] text-[#E0E0E0]">
+    <div class="max-w-3xl mx-auto min-h-screen px-5 py-8">
+      <a
+        href="/"
+        class="inline-flex items-center text-[#6C63FF] hover:text-[#4A47FF] transition-colors mb-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Back to Notes
+      </a>
+
+      <div class="mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-[#6C63FF] mb-2 mt-8">
+          Edit Note
+        </h1>
+        <p class="text-[#A0A0A0]">
+          Updating: "<span class="italic"><%= notePreviousName %></span>"
+        </p>
+      </div>
+
+      <form action="/update" method="post" class="space-y-8">
+        <!-- Current Title -->
+        <div>
+          <label
+            for="previous-tittle-input"
+            class="block text-lg text-[#A0A0A0] mb-3"
+          >
+            Current Title
+          </label>
+          <input
+            name="previousTittle"
+            type="text"
+            id="previous-tittle-input"
+            class="input-field w-full text-xl px-4 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] rounded-lg transition-all"
+            value="<%= notePreviousName %>"
+            readonly
+          />
+        </div>
+
+        <!-- New Title -->
+        <div>
+          <label
+            for="note-tittle-input"
+            class="block text-lg text-[#A0A0A0] mb-3"
+          >
+            New Title <span class="text-[#FF6B6B]">*</span>
+          </label>
+          <input
+            required
+            name="newTittle"
+            type="text"
+            id="note-tittle-input"
+            class="input-field w-full text-xl px-4 py-3 bg-[#1E1E1E] text-[#E0E0E0] border border-[#333333] rounded-lg placeholder-[#A0A0A0]/50 focus:outline-none transition-all"
+            placeholder="Enter new title"
+            maxlength="100"
+            autofocus
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="bg-[#6C63FF] hover:bg-[#4A47FF] text-white font-semibold text-lg py-3 px-8 rounded-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-[#6C63FF]/30"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            Update Note
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>

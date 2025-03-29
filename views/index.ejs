@@ -21,14 +21,14 @@
         <h5
           class="header-logo text-xl text-[#E0E0E0] tracking-[1px] font-semibold"
         >
-          NoteNest
+          <a href="/">NoteNest</a>
         </h5>
         <p class="text-[#A0A0A0] m-1 text-md">Your Cozy Place For Notes</p>
       </header>
       <form
         action="/create"
         method="post"
-        class="note-form flex flex-col justify-center items-center w-full px-5 py-3 gap-5 mt-4"
+        class="note-form flex flex-col justify-center items-start w-full px-5 py-3 gap-5 mt-4"
       >
         <label
           class="note-tittle-label text-[#A0A0A0] text-3xl w-full flex flex-col justify-center items-start gap-4"
@@ -65,8 +65,22 @@
 
         <button
           type="submit"
-          class="bg-[#6C63FF] text-[#E0E0E0] text-xl self-start font-semibold py-2 px-6 rounded-lg hover:bg-[#4A47FF] transition-all duration-300 shadow-lg hover:shadow-[#6C63FF]/50 cursor-pointer"
+          class="create-note-btn group flex items-center cursor-pointer justify-center bg-gradient-to-r from-[#6C63FF] to-[#FF6B6B] hover:from-[#4A47FF] hover:to-[#FF4A4A] text-white text-lg font-semibold px-6 py-4 rounded-full shadow-xl hover:shadow-[0_10px_25px_-5px_rgba(108,99,255,0.3)] transition-all duration-300 transform hover:scale-105"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 mr-2 group-hover:rotate-90 transition-transform"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
           Create Note
         </button>
       </form>
@@ -75,9 +89,9 @@
         <div
           class="note-header flex flex-wrap justify-evenly items-center py-2 gap-y-5"
         >
-          <h5 class="text-center text-[3em] font-semibold text-[#6C63FF]">
+          <h1 class="text-center text-[3em] font-semibold text-[#6C63FF]">
             Notes
-          </h5>
+          </h1>
           <input
             type="search"
             id="note-search-input"
@@ -87,45 +101,94 @@
         </div>
 
         <div
-          class="note-body flex flex-wrap justify-center items-center gap-4 gap-y-5 mt-5 px-3"
+          class="note-body flex flex-wrap justify-center items-center gap-4 gap-y-5 mt-5 px-3 w-full"
         >
           <% if (allNotes.length > 0) { %> <% allNotes.forEach((elem)=>{ %>
+
           <div
             id="note-card"
-            class="note-card max-w-md mx-auto bg-[#1E1E1E] rounded-lg shadow-lg p-6 mb-6 border border-[#333333]"
+            class="note-card w-full max-w-2xl mx-auto bg-[#1E1E1E] rounded-xl shadow-lg p-8 mb-6 border border-[#333333] relative transition-all hover:shadow-[#6C63FF]/20 hover:border-[#6C63FF]/30"
           >
+            <div
+              class="text-[#A0A0A0] text-xs absolute right-6 top-4 opacity-80"
+            >
+              <%= elem.noteTime %>
+            </div>
             <h2
-              class="text-[#E0E0E0] text-2xl font-semibold mb-2"
-              id="note-tittle"
+              class="text-[#E0E0E0] text-2xl font-bold mt-1 mb-4 break-words px-2"
             >
               <%= elem.noteTittle %>
             </h2>
-
-            <a
-              href="/notes/<%= elem.noteName  %>"
-              class="text-[#A0A0A0] inline-block text-lg mb-4 w-full"
-              >Read More..</a
-            >
+            <div class="mb-6 px-2">
+              <a
+                href="/notes/<%= elem.noteFileName %>"
+                class="text-[#6C63FF] hover:text-[#4A47FF] text-base font-medium transition-colors inline-flex items-center"
+              >
+                Read Full Note
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 ml-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </a>
+            </div>
 
             <div
-              class="flex flex-wrap justify-center items-center gap-y-5 gap-5"
+              class="flex justify-end space-x-4 pt-4 border-t border-[#333333]"
             >
               <a
-                href="/delete/<%= elem.noteName  %>"
-                class="flex flex-row justify-center items-center gap-4"
+                href="/edit/<%= elem.noteTittle %>"
+                class="bg-[#6C63FF]/90 hover:bg-[#4A47FF] text-white text-sm font-medium py-2.5 px-5 rounded-lg transition-all duration-300 flex items-center"
               >
-                <button
-                  class="bg-red-500 text-sm text-[#E0E0E0] cursor-pointer font-semibold py-2 px-4 rounded-lg hover:bg-[#FF4A4A] transition-all duration-300 shadow-lg hover:shadow-[#FF6B6B]/50"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  Delete
-                </button>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                Edit
               </a>
 
-              <div class="text-white text-sm">
-                Created At <%= elem.noteTime%>
-              </div>
+              <a
+                href="/delete/<%= elem.noteFileName %>"
+                class="bg-[#FF6B6B]/90 hover:bg-[#FF4A4A] text-white text-sm font-medium py-2.5 px-5 rounded-lg transition-all duration-300 flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+                Delete
+              </a>
             </div>
           </div>
+
           <% }) %> <% } else { %>
           <h4 class="text-xl text-[#A0A0A0] mt-12 mb-5 w-full text-center p-5">
             No Notes Yet
