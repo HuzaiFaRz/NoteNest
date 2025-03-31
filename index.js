@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
         if (error) {
           console.log("failed to show Notes", error.message);
           res.status(500).json({ error: "failed to show Notes" });
+          res.redirect("/");
           return;
         }
         const noteData = JSON.parse(data);
@@ -40,6 +41,8 @@ app.get("/", (req, res) => {
           });
           return;
         }
+        console.log("Note Showing");
+        res.status(200);
       });
     });
   });
@@ -67,8 +70,11 @@ app.post("/create", (req, res) => {
       if (error) {
         console.error("Error Creating Note", error.message);
         res.status(500).json({ error: "failed to create note" });
+        res.redirect("/");
         return;
       }
+      console.log("Note Created");
+      res.status(200);
       res.redirect("/");
     }
   );
@@ -79,26 +85,36 @@ app.get("/notes/:noteFileName", (req, res) => {
     `./notes/${req.params.noteFileName}`,
     "utf-8",
     (error, noteDescription) => {
-      if (!error) {
-        res.render("noteShow", {
-          name: JSON.parse(noteDescription).noteFileName,
-          tittle: JSON.parse(noteDescription).noteTittle,
-          description: JSON.parse(noteDescription).noteDescription,
-          time: JSON.parse(noteDescription).noteTime,
-        });
+      if (error) {
+        console.error("Error Creating Note", error.message);
+        res.status(500).json({ error: "failed to create note" });
+        res.redirect("/");
         return;
       }
-      console.log(error);
+      0.54;
+      res.render("noteShow", {
+        name: JSON.parse(noteDescription).noteFileName,
+        tittle: JSON.parse(noteDescription).noteTittle,
+        description: JSON.parse(noteDescription).noteDescription,
+        time: JSON.parse(noteDescription).noteTime,
+      });
+      console.log("Note Showing");
+      res.status(200);
     }
   );
 });
 
 app.get("/delete/:noteFileName", (req, res) => {
   fs.unlink(`./notes/${req.params.noteFileName}`, (error) => {
-    if (!error) {
+    if (error) {
+      console.error("Error Deleting Note", error.message);
+      res.status(500).json({ error: "failed to delete note" });
       res.redirect("/");
+      return;
     }
-    console.log(error.message);
+    console.log("Note Deleted");
+    res.status(200);
+    res.redirect("/");
   });
 });
 
@@ -113,14 +129,14 @@ app.post("/update", (req, res) => {
     .split(" ")
     .join("")}.json`;
   const newTittle = `./notes/${req.body.newTittle}`;
-
   fs.rename(
     previousTittle,
     `${newTittle.split(" ").join("")}.json`,
     (error) => {
       if (error) {
-        console.error("Error renaming file:", error.message);
-        res.status(500).json({ error: "Failed to rename file" });
+        console.error("Error Editing Note", error.message);
+        res.status(500).json({ error: "failed to edit note" });
+        res.redirect("/");
         return;
       }
       fs.readFile(
@@ -128,8 +144,9 @@ app.post("/update", (req, res) => {
         "utf-8",
         (error, data) => {
           if (error) {
-            console.error("Error renaming file:", error.message);
-            res.status(500).json({ error: "Failed to rename file" });
+            console.error("Error Editing Note", error.message);
+            res.status(500).json({ error: "failed to edit note" });
+            res.redirect("/");
             return;
           }
           const noteData = JSON.parse(data);
@@ -143,10 +160,13 @@ app.post("/update", (req, res) => {
             "utf-8",
             (error) => {
               if (error) {
-                console.error("Error renaming file:", error.message);
-                res.status(500).json({ error: "Failed to rename file" });
+                console.error("Error Editing Note", error.message);
+                res.status(500).json({ error: "failed to edit note" });
+                res.redirect("/");
                 return;
               }
+              console.log("Note Edited");
+              res.status(200);
               res.redirect("/");
             }
           );
