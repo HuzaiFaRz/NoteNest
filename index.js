@@ -41,7 +41,6 @@ app.get("/", (req, res) => {
           });
           return;
         }
-        console.log("Note Showing");
         res.status(200);
       });
     });
@@ -73,7 +72,6 @@ app.post("/create", (req, res) => {
         res.redirect("/");
         return;
       }
-      console.log("Note Created");
       res.status(200);
       res.redirect("/");
     }
@@ -98,7 +96,6 @@ app.get("/notes/:noteFileName", (req, res) => {
         description: JSON.parse(noteDescription).noteDescription,
         time: JSON.parse(noteDescription).noteTime,
       });
-      console.log("Note Showing");
       res.status(200);
     }
   );
@@ -112,7 +109,6 @@ app.get("/delete/:noteFileName", (req, res) => {
       res.redirect("/");
       return;
     }
-    console.log("Note Deleted");
     res.status(200);
     res.redirect("/");
   });
@@ -165,7 +161,6 @@ app.post("/update", (req, res) => {
                 res.redirect("/");
                 return;
               }
-              console.log("Note Edited");
               res.status(200);
               res.redirect("/");
             }
